@@ -43,12 +43,16 @@ audioPathName = 'audio\';
 [audioFileName] = uigetfile({'*.wav', '.mp3'}, 'Select the audio file', audioPathName);
 
 %% Load the score from MIDI file
+% thresholding for avoid model overfitting
+% to smoothare le variazioni (interpretazione si allontana dalla partiture)
+% e dipende dalla risoluzione del midi
+% ===> re introdurre le soglie!
+% evito stati "tappo" <= modello eventi molto rari e il modello si blocca
 [score, ~, firstOnset] = parseMidiScore(scorePathName, scoreFileName);
 
 %% Remove long rests
 % ATTENZIONE!
 % Compound rests with previous events
-
 % compatta le partiture quanalysisParamsdo ci sono lunghe pause;
 % sarebbe da toglire per altri generi musicale
 % zz = 2;
@@ -69,7 +73,8 @@ fb = makeFB(score, nFilters, analysisParams);
 %       analysisParams
 %           training from parameters (setParameters)
 %       model_rest
-%           do (or not) model for rest
+%           do (or not) model for rest (do not necessary for polyphonic
+%           music)
 hmm = makeHMM(score, nSustStates, analysisParams, model_rest);
 
 %% Import audio
@@ -96,29 +101,41 @@ ntot = [ntot; mean(outfilt)'];
 %% Show results
 % qui lo stampa solo, ma e` l'info che utilizzo per l'allineamento
 
-if show_graphs == 2
-    figure(1)
-    hold off;
-    fldm = imagesc(log(real(sgamma)));
-    pldm = get(fldm,'parent');
-    ww = [1:-1/64:1/64];
-    %set(get(pldm,'Parent'),'ColorMap',[ww;ww;ww]');
-    axis xy
-    hold on;
-    plot(decod_sg,'ok')
-    %plot(decod_sg,'ow')
+figure(1)
+% grafico piu` promettente
+% alfa e` un "ottimo locale" => ok per realtime
+% beta informazione futura
+% log e fattori di normalizzazione per rappresentazine in macchina
+% allienamento con alfa e gamma potrei avere dei salti (probabile in
+% live). (tengono aperte tutte le prob => tanti percorsi possibili)
+% allineamente che tiene conto dell'ottimo globale (con delta da
+% Viterbi) => ok per canzoni delle quali si ha lo score "preciso")
 
-elseif show_graphs == 1
+% sgamma => (se so che iniziano e finisco allora stesso tempo (score e
+% musica) - informazione in piu` che sto utilizzando
+fldm = imagesc(log(real(sgamma)));
+pldm = get(fldm,'parent');
+ww = [1:-1/64:1/64];
+axis xy
+hold on;
+plot(decod_sg,'ok')
+title('S-gamma probabilities');
 
     %%%%%%%%%%%%
     % Histograms
+    % probabilita`
+    % performance del banco dei filtri
+    % quello che sento vs quello che modello con banco dei filtri
+    % idealmente htot molto simile a mtot;
     figure(1)
     subplot(3,1,1)
-    hist([0;htot;1],100)
+    % HTOT: 
+    hist([0; htot; 1], 100)
     subplot(3,1,2)
-    hist([0;mtot;1],100)
+    % max output prob banco di filtri
+    hist([0; mtot ;1], 100)
     subplot(3,1,3)
-    hist([0;ntot;1],100)
+    hist([0; ntot; 1], 100)
 
     %%%%%%%%%%%%%%%%
     % Score analysisParamsd FFTs
@@ -156,6 +173,8 @@ elseif show_graphs == 1
 
     %%%%%%%%%%%%%%%%%%
     % Parameters trend
+    
+    % ALFA
     figure(3)
     subplot(3,1,1)
     hold off;
@@ -164,6 +183,7 @@ elseif show_graphs == 1
     hold on;
     plot(decod_a,'ok')
 
+    % DELTA
     subplot(3,1,2)
     hold off;
     imagesc(delta)
@@ -171,6 +191,7 @@ elseif show_graphs == 1
     hold on;
     plot(decod_d,'ok')
 
+    % GAMMA
     subplot(3,1,3)
     hold off;
     imagesc(log(real(gamma)))
@@ -201,9 +222,10 @@ elseif show_graphs == 1
     plot(decod_sg,'ok')
 
 
-
 elseif show_graphs == 0
-
+    
+    % Trascurare?!
+    
     squerror = zeros(3,1);
     l_xy = zeros(3,1);
     for tst = 1:3

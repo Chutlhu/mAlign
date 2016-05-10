@@ -25,7 +25,7 @@ function [score, midireadOutput] = parseRtfMidiScore(scorePathName, scoreFileNam
     % parse the midi file in the following format
     % ||--time--|--dur--|--channel--|--key--|--vel--|--lastMsec--|--lastMsecOff-lastMsec--|--3xAccents--||
     % Acc16 = ?
-    % Acc17 = ?
+    % Acc17 = ? >> toglierli (lavoro vecchio)
     % Acc18 = ?
     [~, midireadOutput] = system([midireadPath, ' ', file]);
 
@@ -106,6 +106,8 @@ function [score, midireadOutput] = parseRtfMidiScore(scorePathName, scoreFileNam
     end
     cicla = 1;
     n = 2;
+    
+    % "hierarchical clustering" su eventi lievementi sovrapposti
     while cicla,
       % Short rest slices (for some instrument)
       if score{n, 2} < thrs_msec_rest && ...
