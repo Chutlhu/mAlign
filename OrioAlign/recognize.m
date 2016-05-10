@@ -1,4 +1,4 @@
-%function probs = recognize(hmm,fb,pdfs,ySpectrogram,logEnergy)
+%function probs = recognize(hmm, fb, pdfs, ySpectrogram, logEnergy)
 
 % recognize (function)
 %

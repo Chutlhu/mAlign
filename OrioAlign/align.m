@@ -1,55 +1,51 @@
-%% SCRIPT for the recognition test
+%%           mAlign               %%
+%   SCRIPT for the alignment test %
 
 clear all;
 close all;
 
 %% Setup
-% add folders analysisParamsd subfolders to working path
+% add folders and subfolders to working path
 addpath(genpath('./'))
 
-% NB:   show_graphs = 1, mostra dei grafici interattivi
-%       show_graphs = 0, mostra le rette interpolatrici e la loro distanalysisParamsza
+%% Flags
+% NB:   show_graphs = 1
+%       show_graphs = 0
+%       show_graphs = 2 ??
 show_graphs = 1;
 
 %% Experiment output values
+% NB:   htot = ??
+%       mtot = ??
+%       ntot = ??
 htot = [];  %
 mtot = [];  %
 ntot = [];  %
 
-model_rest = 0;
-
 %% Experimental parameters
+% NB:   Thresholds for merging events:
+%               thrs_msec_note, thrs_msec_rest
+%       Number of sustain states in the network:
+%               nSustStates 
+%       Number of filters in the filterbanalysisParamsk:
+%               nFilters
+%       Analysis Parameters:
+%               Fs, nFFT, l_sig, hpsz
+%       Observations probabilities:
+%               uniform, logEnergy_s_th, logEnergy_s_mu, logEnergy_r_th, logEnergy_r_mu, enrg_th, enrg_mu
 exp_num = 15;
-
-% Thresholds for merging events:
-%   thrs_msec_note, thrs_msec_rest
-% Number of sustain states in the network:
-%   nSustStates 
-% Number of filters in the filterbanalysisParamsk:
-%   nFilters
-% analysisParamsalysis parameters:
-%   Fs, nFFT, l_sig, hpsz
-% Observations probabilities:
-%   uniform, logEnergy_s_th, logEnergy_s_mu, logEnergy_r_th, logEnergy_r_mu, enrg_th, enrg_mu
 setParameters;
 
-% Overwrite thresholds for merging events
-thrs_msec_note = 100;
-thrs_msec_rest = 200;
-
-% File da allineare
-% adf = 4;
-
-% Import file
-[scoreFileName] = uigetfile('*.mid', 'Select the MIDI file','./score');
-[audioFileName] = uigetfile({'*.wav', '.mp3'}, 'Select the audio file', './audio');
+%% Load audio and MIDI files
 scorePathName = 'score\';
 audioPathName = 'audio\';
+[scoreFileName] = uigetfile('*.mid', 'Select the MIDI file', scorePathName);
+[audioFileName] = uigetfile({'*.wav', '.mp3'}, 'Select the audio file', audioPathName);
 
-%% Load the score
+%% Load the score from MIDI file
 [score, ~, firstOnset] = parseMidiScore(scorePathName, scoreFileName);
 
-%% Rimuove pause lunghe
+%% Remove long rests
 % ATTENZIONE!
 % Compound rests with previous events
 
@@ -65,10 +61,15 @@ audioPathName = 'audio\';
 % end
 
 %% Create Hidding Markov Model
-fb = makeFB(score, nFilters, analysisParams);               % banco di filtri per HMM
+% bank of filters for HMM
+fb = makeFB(score, nFilters, analysisParams);
 
-% nSustStates = numero stati sustain per simulare la durata di una nota (2 - 4 stati)
-% analysisParams = tra training su set parameters
+% NB:   nSustStates:
+%           numero stati sustain per simulare la durata di una nota (2 - 4 stati)
+%       analysisParams
+%           training from parameters (setParameters)
+%       model_rest
+%           do (or not) model for rest
 hmm = makeHMM(score, nSustStates, analysisParams, model_rest);
 
 %% Import audio
@@ -76,9 +77,9 @@ hmm = makeHMM(score, nSustStates, analysisParams, model_rest);
 % spectrogram = matrix of the fft absolute values
 % logEnergy: array with the log-energy of each frame
 
-%% Recognition
+%% Perform HMM Training
 probs = zeros(1,6);
-recognize; % calcola alfa, beta e gamma
+recognize; % compute alfa, beta e gamma
 
 %% Results
 h1 = zeros(M,1);

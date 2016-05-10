@@ -22,7 +22,6 @@ function [score, firstOnset, midiScore] = parseMidiScore(scorePathName, scoreFil
     % ||--onset(beats)--|--duration(beats)--|--channel--|--key--|--vel--|--onset(sec)--|--duration(sec)--||
     midiScore = midi2nmat(file);
 
-
     % Load scan the standard output and reorganize the score in a integer matrix
     % delete channel 0 (do not know why) // usaully not used
     noteMatrix = midiScore(~midiScore(:, 3) == 0,:);

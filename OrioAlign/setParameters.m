@@ -170,9 +170,9 @@ switch exp_num
 
   case 15
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
-
+    thrs_msec_note = 100;
+    thrs_msec_rest = 200;
+    
     % Number of sustain states in the network
     nSustStates = 4;
 
@@ -191,6 +191,9 @@ switch exp_num
       'logEnergy_r_mu', 0.2, ...
       'enrg_th', 0.38, ...
       'enrg_mu', 0.1);
+    
+    % include rests in the HMM model?
+    model_rest = 0;
 
   case 16
     % Thresholds for merging events

@@ -1,4 +1,4 @@
-function hmm = makeHMM(score,nSustStates,analysisParams,model_rest)
+function hmm = makeHMM(score, nSustStates, analysisParams, model_rest)
 
 % makeHMM (function)
 %
@@ -12,7 +12,7 @@ function hmm = makeHMM(score,nSustStates,analysisParams,model_rest)
 % analysisParams.hpsz: hopsize between adjacent frames
 %
 % OUPUT values
-% hmm.prior: probabilities of beeing first state
+% hmm.prior: probabilities of being first state
 % hmm.trans: transition probabilities
 % hmm.obs: pointer to filterbanks, for computing observations
 % hmm.logprior: probabilities of beeing first state in log scale
