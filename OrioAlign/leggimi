@@ -1,0 +1,24 @@
+CARTELLE AUDIO + SCORE
+
+I file .trs contengono la trascrizione della partitura.
+La terza colonna significa: 0=voce da enfatizzare; 1,2,...=altre voci
+
+Domanda e risposta (due voci)
+* oh-selve-care.wav
+* o-selve-care.wav
+* oh-selve-care.trs
+
+Corale (tre voci)
+* non-sempre.wav
+* non-sempre.trs
+
+-----------------
+
+SCRIPT
+
+* align.m
+
+Chiamata principale, utilizza
+
+  * setParameters.m : parametri dell'allineamento (per testare configurazione ottimale)
+  * parseMIDI.m : legge il file .trs e crea il modello della partitura
