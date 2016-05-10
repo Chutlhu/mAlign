@@ -9,7 +9,7 @@ function hmm = makeHMM(score, nSustStates, analysisParams, model_rest)
 % score: cell array of polyphonic score slices
 % nSustStates: number of sustain states
 % analysisParams.Fs: sampling rate
-% analysisParams.hpsz: hopsize between adjacent frames
+% analysisParams.hopeSize: hopsize between adjacent frames
 %
 % OUPUT values
 % hmm.prior: probabilities of being first state
@@ -24,7 +24,7 @@ nNotes = size(score, 1);
 nHMMStates = 2 + (nSustStates + 1) * nNotes;
 
 % Expected number of times in slice
-n_self = ceil(cell2mat(score(:, 2)) * analysisParams.Fs / (analysisParams.hpsz * 1000));
+n_self = ceil(cell2mat(score(:, 2)) * analysisParams.Fs / (analysisParams.hopeSize * 1000));
 autos = (n_self - nSustStates + 1) ./ n_self;
 
 % Take care of very short slices

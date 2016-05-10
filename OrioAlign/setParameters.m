@@ -12,7 +12,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',8192,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',8192,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -36,7 +36,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',8192,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',8192,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -60,7 +60,7 @@ switch exp_num
     nFilters = 8;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -84,7 +84,7 @@ switch exp_num
     nFilters = 6;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -108,7 +108,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -132,7 +132,7 @@ switch exp_num
     nFilters = 3;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -156,7 +156,7 @@ switch exp_num
     nFilters = 2;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -180,7 +180,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',1024,'hpsz',512);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',1024,'hopeSize',512);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -207,7 +207,7 @@ switch exp_num
     nFilters = 8;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',1024,'hpsz',512);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',1024,'hopeSize',512);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -231,7 +231,7 @@ switch exp_num
     nFilters = 2;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',1024,'hpsz',512);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',1024,'hopeSize',512);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -255,7 +255,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -279,7 +279,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -303,7 +303,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -327,7 +327,7 @@ switch exp_num
     nFilters = 3;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -351,7 +351,7 @@ switch exp_num
     nFilters = 3;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -375,7 +375,7 @@ switch exp_num
     nFilters = 3;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -399,7 +399,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -423,7 +423,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -447,7 +447,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -471,7 +471,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -495,7 +495,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -519,7 +519,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -543,7 +543,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -567,7 +567,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -591,7 +591,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -615,7 +615,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -639,7 +639,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -663,7 +663,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -687,7 +687,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -711,7 +711,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -736,7 +736,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -761,7 +761,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -786,7 +786,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -812,7 +812,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -837,7 +837,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -861,7 +861,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -886,7 +886,7 @@ switch exp_num
     nFilters = 3;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -910,7 +910,7 @@ switch exp_num
     nFilters = 2;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -936,7 +936,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -961,7 +961,7 @@ switch exp_num
     nFilters = 4;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -986,7 +986,7 @@ switch exp_num
     nFilters = 3;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
@@ -1011,7 +1011,7 @@ switch exp_num
     nFilters = 2;
 
     % analysisParamsalysis parameters
-    analysisParams = struct('Fs',44100,'nFFT',4096,'l_sig',2048,'hpsz',1024);
+    analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',2048,'hopeSize',1024);
 
     % Observations probabilities
     pdfs = struct( ...
