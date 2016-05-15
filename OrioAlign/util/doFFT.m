@@ -35,7 +35,9 @@ catch
   y = audioread([path, filename]);
 
   % to mono
-  y = 0.5*(y(:,1) + y(:,2));
+  if size(y,2) == 2
+    y = 0.5*(y(:,1) + y(:,2));
+  end
   y = y./max(abs(y));
   nSamples = length(y);
   

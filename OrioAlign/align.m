@@ -36,7 +36,7 @@ audioPathName = 'audio\';
 % e dipende dalla risoluzione del midi
 % ===> re introdurre le soglie!
 % evito stati "tappo" <= modello eventi molto rari e il modello si blocca
-[score, ~, firstOnset] = parseMidiScore(scorePathName, scoreFileName);
+[score, firstOnset] = parseMidiScore(scorePathName, scoreFileName);
 
 %% Remove long rests
 % ATTENZIONE!
@@ -145,7 +145,7 @@ title('MIDI pianoo roll of the score')
 [void, ppp] = max(-diff(fb.extrs'));
 ppp = max(ppp)+50;
 fy = zeros(size(ySpectrogram));
-for m = 1:M
+for m = 1:length(notes)
     if hmm.obs(decod_sg(m), 1),
       fy(:,m) = ySpectrogram(:, m) .* fb.bands(hmm.obs(decod_sg(m),2), :)';
     end
