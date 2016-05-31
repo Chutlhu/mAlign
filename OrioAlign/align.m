@@ -91,7 +91,7 @@ meanFiltOutput = mean(outfilt)';% mean over time
 %% Show results
 % qui lo stampa solo, ma e` l'info che utilizzo per l'allineamento
 
-figure(1)
+figure()
 % grafico piu` promettente
 % alfa e` un "ottimo locale" => ok per realtime
 % beta informazione futura
@@ -109,7 +109,7 @@ axis xy
 plot(decod_sg,'ok')
 title('S-gamma probabilities');
 
-figure(2)
+figure()
 % Probability histogram: performance del banco dei filtri
 % quello che sento vs quello che vedo se modello con banco dei filtri
 % idealmente htot dovrebbe essere molto simile a mtot;
@@ -127,7 +127,7 @@ hist([0; meanFiltOutput; 1], 100)
 
 %%%%%%%%%%%%%%%%
 % Score analysisParamsd FFTs
-figure(3)
+figure()
 subplot(3,1,1)
 fpos = firstOnset;
     for n = 1:length(score)
@@ -211,59 +211,4 @@ plot(decod_sg,'ok')
 
 
 
-% % Trascurare?!
-% 
-% squerror = zeros(3,1);
-% l_xy = zeros(3,1);
-% for tst = 1:3
-% dcd = zeros(M,1);
-% switch tst
-%   case 1
-%     [void, dcd] = max(real(alfa));
-%   case 2
-%     [void, dcd(M)] = max(delta(:,M));
-%     for m = M-1:-1:1
-%       dcd(m) = psi(dcd(m+1), m+1);
-%     end
-%   case 3
-%     [void, dcd] = max(real(gamma));
-% end
-% 
-% last_n = 1;
-% timesum = 0;
-% xy = zeros(ceil(dcd(M) / nSustStates),2);
-% k = 0;
-% for m = 2:M
-%   if dcd(m) ~= last_n && rem(dcd(m) - 2, nSustStates) == 0
-%     last_n = dcd(m);
-%     k = k + 1;
-%     xy(k,:) = [m,timesum];
-%     timesum = timesum + hmm.obs(last_n,3);
-%   end
-% end
-% 
-% if xy(k,1) ~= M
-%   k = k + 1;
-%   xy(k,:) = [M, timesum];
-% end
-% 
-% xy = xy(1:k,:);
-% p = polyfit(xy(:,1),xy(:,2),1);
-% 
-%  figure(6)
-%  subplot(3,1,tst)
-%  hold off
-%  plot(xy(:,1),xy(:,2),'or')
-%  hold on
-%  plot([xy(1,1),xy(end,1)],p(1)*[xy(1,1),xy(end,1)]+p(2),'k')
-% 
-% l_xy(tst) = size(xy,1);
-% fact = ( p(1)^2 + 1 );
-% squerror(tst) = 0;
-% for m = 1:l_xy(tst)
-%   squerror(tst) = squerror(tst) + ( -p(1)*xy(m,1) + xy(m,2) - p(2) )^2 / fact;
-% end
-%     squerror(tst) = squerror(tst) / l_xy(tst);
-% end
-% disp(log(squerror'))
-% end
+

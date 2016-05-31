@@ -1,4 +1,4 @@
-function [score, firstOnset, midiScoreMat] = parseMidiScore(scorePathName, scoreFileName, thrsMillisNote, thrsMillisRest)
+function [simpleScore, firstOnset, midiScoreMat] = parseMidiScore(scorePathName, scoreFileName, thrsMillisNote, thrsMillisRest)
 
     %% parseMIDI (function)
     %
@@ -104,7 +104,7 @@ function [score, firstOnset, midiScoreMat] = parseMidiScore(scorePathName, score
     firstOnset = timeOnsets(1);
 
     %% DISPLAY RESULTS
-    figure(3)
+    figure()
     pianoroll(noteMatrix, 'num', 'sec'); % <<= ground truth
     
     % Score
