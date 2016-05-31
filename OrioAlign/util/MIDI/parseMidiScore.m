@@ -1,6 +1,6 @@
-function [score, firstOnset, midiScore] = parseMidiScore(scorePathName, scoreFileName)
+function [score, firstOnset, midiScoreMat] = parseMidiScore(scorePathName, scoreFileName, thrsMillisNote, thrsMillisRest)
 
-    % parseMIDI (function)
+    %% parseMIDI (function)
     %
     % Function for parsing the .trs file FILENAME, obtained by C function
     % midiread, in directory PATH. When THRS_MSEC is set, short slices are
@@ -20,11 +20,11 @@ function [score, firstOnset, midiScore] = parseMidiScore(scorePathName, scoreFil
 
     % parse the midi file in the following format using MIDItoolbox
     % ||--onset(beats)--|--duration(beats)--|--channel--|--key--|--vel--|--onset(sec)--|--duration(sec)--||
-    midiScore = midi2nmat(file);
+    midiScoreMat = midi2nmat(file);
 
     % Load scan the standard output and reorganize the score in a integer matrix
     % delete channel 0 (do not know why) // usaully not used
-    noteMatrix = midiScore(~midiScore(:, 3) == 0,:);
+    noteMatrix = midiScoreMat(~midiScoreMat(:, 3) == 0,:);
     nNotes = size(noteMatrix, 1);
 
     % if midiScore has 7 colums, add zeros columns
@@ -61,22 +61,75 @@ function [score, firstOnset, midiScore] = parseMidiScore(scorePathName, scoreFil
         score{indexOnset, 2} = interOnsetTime(indexOnset);
         score{indexOnset, 3} = [0 0 0];
     end
+  
+    
+    % simplify the time slices (hierachical clustering on partially
+    % overlapped events
 
+    % initialization
+    simpleScore = score;
+    indexOnset = 1;
+    if score{indexOnset, 2} < thrsMillisNote,
+        simpleScore{indexOnset+1, 2} = simpleScore{indexOnset+1, 2} + simpleScore{indexOnset, 2};
+        simpleScore = simpleScore(2:end, :);
+    end
+
+    hasNotFinished = 1;
+    indexOnset = 2;
+
+    while hasNotFinished,
+      % Short rest slices (for some instrument)
+      if simpleScore{indexOnset, 2} < thrsMillisRest && ...
+          sum(ismember(simpleScore{indexOnset, 1},simpleScore{indexOnset - 1, 1})) == length(simpleScore{indexOnset, 1}),
+        simpleScore{indexOnset - 1, 2} = simpleScore{indexOnset - 1, 2} + simpleScore{indexOnset, 2};
+        simpleScore = [simpleScore(1:indexOnset - 1, :); simpleScore(indexOnset + 1:end, :)];
+        
+      % Short note slices (present in neighbors)
+      elseif simpleScore{indexOnset, 2} < thrsMillisRest && ...
+          sum(ismember(simpleScore{indexOnset, 1},union(simpleScore{indexOnset - 1, 1},simpleScore{indexOnset + 1, 1}))) == length(simpleScore{indexOnset, 1}),
+        simpleScore{indexOnset - 1, 2} = simpleScore{indexOnset - 1, 2} + simpleScore{indexOnset, 2} / 2;
+        simpleScore{indexOnset + 1, 2} = simpleScore{indexOnset + 1, 2} + simpleScore{indexOnset, 2} / 2;
+        simpleScore = [simpleScore(1:indexOnset - 1, :); simpleScore(indexOnset + 1:end, :)];
+      else
+        indexOnset = indexOnset + 1;
+      end
+
+      if indexOnset == size(simpleScore, 1),
+        hasNotFinished = 0;
+      end
+    end
+    
+    
     % time shift:
     firstOnset = timeOnsets(1);
 
     %% DISPLAY RESULTS
     figure(3)
-    pianoroll(noteMatrix, 'num', 'sec'); % <<= ground truth?
+    pianoroll(noteMatrix, 'num', 'sec'); % <<= ground truth
+    
+    % Score
     fpos = firstOnset;
-    for n = 1:length(score)
+    for indexOnset = 1:length(score)
         ipos = fpos;
-        fpos = ipos + score{n, 2};
+        fpos = ipos + score{indexOnset, 2};
 
-        notes = score{n,1};
+        notes = score{indexOnset,1};
         for m = 1:length(notes)
             nt = notes(m);
-            line([ipos,fpos],[nt,nt],'LineWidth',3,'LineStyle','-','Color',[0 0 0])
+            line([ipos,fpos],[nt,nt],'LineWidth',8,'LineStyle','-','Color', 'g')
+        end
+    end
+    
+    % Simple Score
+    fpos = firstOnset;
+    for indexOnset = 1:length(simpleScore)
+        ipos = fpos;
+        fpos = ipos + simpleScore{indexOnset, 2};
+
+        notes = simpleScore{indexOnset,1};
+        for m = 1:length(notes)
+            nt = notes(m);
+            line([ipos,fpos],[nt,nt],'LineWidth',5,'LineStyle','-','Color', 'b')
         end
     end
 

@@ -36,7 +36,7 @@ audioPathName = 'audio\';
 % e dipende dalla risoluzione del midi
 % ===> re introdurre le soglie!
 % evito stati "tappo" <= modello eventi molto rari e il modello si blocca
-[score, firstOnset] = parseMidiScore(scorePathName, scoreFileName);
+[score, firstOnset] = parseMidiScore(scorePathName, scoreFileName, thrsMillisNote, thrsMillisRest);
 
 %% Remove long rests
 % ATTENZIONE!

@@ -129,6 +129,7 @@ function [score, midireadOutput] = parseRtfMidiScore(scorePathName, scoreFileNam
         cicla = 0;
       end
     end
+    
     if score{n, 2} < thrs_msec_rest && ...
         sum(ismember(score{n, 1},score{n - 1, 1})) == length(score{n, 1}),
       score{n - 1, 2} = score{n - 1, 2} + score{n, 2};

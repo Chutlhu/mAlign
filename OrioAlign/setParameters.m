@@ -2,8 +2,8 @@ switch exp_num
 
   case 1001
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 2;
@@ -26,8 +26,8 @@ switch exp_num
   
   case 1002
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 2;
@@ -50,8 +50,8 @@ switch exp_num
   
   case 10
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -74,8 +74,8 @@ switch exp_num
 
   case 11
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -98,8 +98,8 @@ switch exp_num
 
   case 12
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -122,8 +122,8 @@ switch exp_num
 
   case 13
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -146,8 +146,8 @@ switch exp_num
 
   case 14
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -170,8 +170,8 @@ switch exp_num
 
   case 15
     % Thresholds for merging events
-    thrs_msec_note = 100;
-    thrs_msec_rest = 200;
+    thrsMillisNote = 0.100;
+    thrsMillisRest = 0.200;
     
     % Number of sustain states in the network
     nSustStates = 4;
@@ -197,8 +197,8 @@ switch exp_num
 
   case 16
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -221,8 +221,8 @@ switch exp_num
 
   case 17
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -245,8 +245,8 @@ switch exp_num
 
   case 20
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -269,8 +269,8 @@ switch exp_num
 
   case 21
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -293,8 +293,8 @@ switch exp_num
 
   case 22
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -317,8 +317,8 @@ switch exp_num
 
   case 23
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -341,8 +341,8 @@ switch exp_num
 
   case 24
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -365,8 +365,8 @@ switch exp_num
 
   case 25
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -389,8 +389,8 @@ switch exp_num
 
   case 26
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -413,8 +413,8 @@ switch exp_num
 
   case 27
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -437,8 +437,8 @@ switch exp_num
 
   case 28
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -461,8 +461,8 @@ switch exp_num
 
   case 29
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -485,8 +485,8 @@ switch exp_num
 
   case 30
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -509,8 +509,8 @@ switch exp_num
 
   case 31
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -533,8 +533,8 @@ switch exp_num
 
   case 32
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -557,8 +557,8 @@ switch exp_num
 
   case 33
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -581,8 +581,8 @@ switch exp_num
 
   case 34
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -605,8 +605,8 @@ switch exp_num
 
   case 35
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -629,8 +629,8 @@ switch exp_num
 
   case 36
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -653,8 +653,8 @@ switch exp_num
 
   case 37
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -677,8 +677,8 @@ switch exp_num
 
   case 38
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -701,8 +701,8 @@ switch exp_num
 
   case 39
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -726,8 +726,8 @@ switch exp_num
   case 40
 
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -751,8 +751,8 @@ switch exp_num
   case 41
 
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -776,8 +776,8 @@ switch exp_num
   case 42
 
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -802,8 +802,8 @@ switch exp_num
   case 43
 
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -827,8 +827,8 @@ switch exp_num
   case 44
 
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -851,8 +851,8 @@ switch exp_num
 
   case 1
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -876,8 +876,8 @@ switch exp_num
 
   case 2
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -900,8 +900,8 @@ switch exp_num
 
   case 3
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -926,8 +926,8 @@ switch exp_num
   case 421
 
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 3;
@@ -951,8 +951,8 @@ switch exp_num
   case 422
 
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 2;
@@ -976,8 +976,8 @@ switch exp_num
   case 423
 
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
@@ -1001,8 +1001,8 @@ switch exp_num
   case 424
 
     % Thresholds for merging events
-    thrs_msec_note = 40;
-    thrs_msec_rest = 150;
+    thrsMillisNote = 40;
+    thrsMillisRest = 150;
 
     % Number of sustain states in the network
     nSustStates = 4;
