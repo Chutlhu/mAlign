@@ -70,23 +70,26 @@ hmm = makeHMM(score, nSustStates, analysisParams, model_rest);
 % spectrogram = matrix of the fft absolute values
 % logEnergy: array with the log-energy of each frame
 
-%% Perform HMM Training
+%% Perform HMM Training and Recognition
 probs = zeros(1,6);
 recognize; % compute alfa, beta e gamma
 
 %% Results
-h1 = zeros(nFrameAudio,1); 
-g1 = hmm.obs(decod_sg, 2);
+
+% filters normalized output for each observation
+filtersOutput = zeros(nFrameAudio,1);
+% resulting sequence of states
+statesSequences = hmm.obs(decod_sg, 2);
 
 for m = 1:nFrameAudio
-  if g1(m) > 0
-    h1(m) = outfilt(g1(m),m); % compute filters normalized output for each observation
+  if statesSequences(m) > 0
+    filtersOutput(m) = harmonicContent(statesSequences(m), m);
   end
 end
 
-sumFiltOutput = h1(h1>0);       % output energy from a bank given the state
-maxFiltOutput = max(outfilt)';  % max over time
-meanFiltOutput = mean(outfilt)';% mean over time
+sumFiltOutput = filtersOutput(filtersOutput > 0);   % output energy from state
+maxFiltOutput = max(harmonicContent)';              % for evert bank the max over time of its throughput
+meanFiltOutput = mean(harmonicContent)';            % mean over time the mean over time of its throughput
 
 %% Show results
 % qui lo stampa solo, ma e` l'info che utilizzo per l'allineamento

@@ -40,6 +40,7 @@ state = 1;
 prior(state) = 1;
 trans(state, state) = 0.5;
 trans(state, state+1) = 0.5;
+% pointer to the filterbanks: [ATTACK/SUSTAIN | STATE | TIME SLICE]
 obs(state, :) = [0, 0, 0];
 
 % Slices in the score
@@ -50,7 +51,7 @@ for n = 1:nNotes-1
   % Check if slice has notes
   if ~isempty(score{n, 1})
 
-    % Sustain
+    %  Model Sustain on a note
     for m=1:nSustStates,
       trans(state, state) = autos(n);
       trans(state, state + 1) = 1 - autos(n);

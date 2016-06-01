@@ -23,96 +23,114 @@
 nFrameScore = length(hmm.prior);
 nFrameAudio = length(logEnergy);
 
+%% Acoustic features
+
 % Clip logEnergy
-c_logEnergy = logEnergy;
-void = logEnergy > pdfs.logEnergy_s_th;
-c_logEnergy(void) = pdfs.logEnergy_s_th;
-void = logEnergy < pdfs.logEnergy_r_th;
-c_logEnergy(void) = pdfs.logEnergy_r_th;
+clippedLogEnergy = logEnergy;
+clippedLogEnergy(logEnergy > pdfs.logEnergy_s_th) = pdfs.logEnergy_s_th;
+clippedLogEnergy(logEnergy < pdfs.logEnergy_r_th) = pdfs.logEnergy_r_th;
 
-% Compute filters normalized output
-ortomio = (fb.bands * ySpectrogram);
-outfilt = (fb.bands * ySpectrogram) ./ (fb.extrs * ySpectrogram);
-logEnergy_s = exp( (c_logEnergy - pdfs.logEnergy_s_th) / pdfs.logEnergy_s_mu ) / pdfs.logEnergy_s_mu;
-logEnergy_r = exp( (pdfs.logEnergy_r_th - c_logEnergy) / pdfs.logEnergy_r_mu ) / pdfs.logEnergy_r_mu * pdfs.uniform;
+% Frequencies peack features: harmonic content for event (rows) over time (columns)
+% that is the Peak Structured Distance - 1.
+harmonicContents = (fb.bands * ySpectrogram) ./ (fb.extrs * ySpectrogram);
 
-% Compute probabilities
-obsli = zeros(nFrameScore, nFrameAudio);
+%% Observation probabilities
+% Probability to observe the Log Energy feature being in a...
+% ... sustain/note state as Truncated Unilateral Exponential
+obsProb_sustain_logEnergy = exp( (clippedLogEnergy - pdfs.logEnergy_s_th) / pdfs.logEnergy_s_mu ) / pdfs.logEnergy_s_mu;
+% ... rest state as Truncated Unilateral Exponential
+obsProb_rest_logEnergy = exp( (pdfs.logEnergy_r_th - clippedLogEnergy) / pdfs.logEnergy_r_mu ) / pdfs.logEnergy_r_mu * pdfs.uniform;
+
+obsProb = zeros(nFrameScore, nFrameAudio);
 for n = 1:nFrameScore,
   if hmm.obs(n, 1),
-    obsli(n, :) = logEnergy_s .* exp( (outfilt(hmm.obs(n, 2), :) - pdfs.enrg_th) / pdfs.enrg_mu ) / pdfs.enrg_mu;
+    % Probability to observe that amount of energy being in a sustin/note state
+    % TO DO: why it is the Truncated Unilateral Exponential?
+    obsProb_sustain_filterbanks = exp( (harmonicContents(hmm.obs(n, 2), :) - pdfs.enrg_th) / pdfs.enrg_mu ) / pdfs.enrg_mu;
+    % TO DO: try with different distribution as suggested in the paper???
+    % maybe it is the unilateral without the constant factor
+    
+    % joint probability (under indipendence assumption)
+    obsProb(n, :) = obsProb_sustain_logEnergy .* obsProb_sustain_filterbanks;
   else
-    obsli(n, :) = logEnergy_r;
+    % No harmonic content for rest state
+    obsProb(n, :) = obsProb_rest_logEnergy;
   end
 end
-logobsli = log(obsli);
+logObsProb = log(obsProb); % used to avoid comutational error
 
+%% HMM Training
 % Initializations
-alfa = zeros(nFrameScore, nFrameAudio);     % forward probabilities -> ottimo locale senza info futura
+alfa = zeros(nFrameScore, nFrameAudio);     % forward probabilities. It provides only local optimum with no information about the future
+                                            % that is, coming from the past
 c = zeros(nFrameAudio, 1);
-beta = zeros(nFrameScore, nFrameAudio);     % backwards probabilities (se e` in tempo reale beta non lo uso, ma si offline)
-sbeta = zeros(nFrameScore, nFrameAudio);    
-delta = zeros(nFrameScore, nFrameAudio);    % prob di transizione (viterbi)
+beta = zeros(nFrameScore, nFrameAudio);     % backwards probabilities (can be used only for offline modelling)
+                                            % that is, coming from the future
+scaledBeta = zeros(nFrameScore, nFrameAudio);    
+delta = zeros(nFrameScore, nFrameAudio);    % transition probabilities for Viterbi decoding
 psi = zeros(nFrameScore, nFrameAudio);
-gamma = zeros(nFrameScore, nFrameAudio);    % alfa times beta = osservazione in quel punto dato -> ottimo locale con info futura
-sgamma = zeros(nFrameScore, nFrameAudio);
+gamma = zeros(nFrameScore, nFrameAudio);    % alfa times beta. It provides a global optimum exploiting information jointly 
+                                            % from past and future
+scaledGamma = zeros(nFrameScore, nFrameAudio);
 
 % Scaled forward (alfa) probabilities and logarithmic Viterbi (delta, psi) decoding
-alfa(:, 1) = hmm.prior .* obsli(:, 1);
+alfa(:, 1) = hmm.prior .* obsProb(:, 1);
 c(1) = sum(alfa(:, 1));
 alfa(:, 1) = alfa(:, 1) / c(1);
-delta(:, 1) = hmm.logPrior + logobsli(:, 1);
+delta(:, 1) = hmm.logPrior + logObsProb(:, 1);
 for m = 2:nFrameAudio,
-  alfa(:, m) = (hmm.trans' * alfa(:, m - 1)) .* obsli(:, m);
+  alfa(:, m) = (hmm.trans' * alfa(:, m - 1)) .* obsProb(:, m);
   c(m) = sum(alfa(:, m));
   alfa(:, m) = alfa(:, m) / c(m);
   
   for n = 1:nFrameScore,
     [delta(n, m), psi(n, m)] = max(delta(:, m - 1) + hmm.logTrans(:, n));
-    delta(n, m) = delta(n, m) + logobsli(n, m);
+    delta(n, m) = delta(n, m) + logObsProb(n, m);
   end,
 end
 
 % Scaled backward (beta) probabilities, normal and restricted
 beta(:, nFrameAudio) = ones(nFrameScore, 1) / c(nFrameAudio);
-sbeta(:, nFrameAudio) = zeros(nFrameScore, 1);
+scaledBeta(:, nFrameAudio) = zeros(nFrameScore, 1);
 
 % ATTENZIONE VARIZIONE SGAMMA
 %sbeta(3*n_sust:N, M) = 1 / c(M);
 % FINE VARIAZIONE
-sbeta(nFrameScore, nFrameAudio) = 1 / c(nFrameAudio);
+scaledBeta(nFrameScore, nFrameAudio) = 1 / c(nFrameAudio);
 
 for m = nFrameAudio-1:-1:1,
-  beta(:, m) = (hmm.trans * (beta(:, m + 1) .* obsli(:, m + 1))) / c(m);
-  sbeta(:, m) = (hmm.trans * (sbeta(:, m + 1) .* obsli(:, m + 1))) / c(m);
+  beta(:, m) = (hmm.trans * (beta(:, m + 1) .* obsProb(:, m + 1))) / c(m);
+  scaledBeta(:, m) = (hmm.trans * (scaledBeta(:, m + 1) .* obsProb(:, m + 1))) / c(m);
 end
 
 % Forward-backward (gamma) probabilities, normal and restricted
 gamma = alfa .* beta;
-sgamma = alfa .* sbeta;
+scaledGamma = alfa .* scaledBeta;
 
-% Approaches to the recognition problem       
+%% Approaches to the recognition problem       
+% Viterbi algorithm for decoding
+
 probs = zeros(1,6);
 
 % Normal condition
 % ALPHA -> P( o_1 ... o_T | l )
-[void decod_a] = max(real(alfa));
+[~, decodedModel_alpha] = max(real(alfa));
 probs(1) = sum(log(c));
 
 % DELTA -> P( o_1 ... o_T | q_1 ... q_T , l )
-decod_d = zeros(nFrameAudio,1);
-[void, decod_d(nFrameAudio)] = max(real(delta(:, nFrameAudio)));
+decodedModel_delta = zeros(nFrameAudio,1);
+[~, decodedModel_delta(nFrameAudio)] = max(real(delta(:, nFrameAudio)));
 for m = nFrameAudio-1:-1:1
-  decod_d(m) = psi(decod_d(m+1), m+1);
+  decodedModel_delta(m) = psi(decodedModel_delta(m+1), m+1);
 end
 for m = 1:nFrameAudio
-  probs(2) = probs(2) + logobsli(decod_d(m), m);
+  probs(2) = probs(2) + logObsProb(decodedModel_delta(m), m);
 end
 
 % GAMMA -> prod_t{ P ( o_t | q_t , l ) }
-[void, decod_g] = max(real(gamma));
+[~, decodedModel_gamma] = max(real(gamma));
 for m = 1:nFrameAudio
-  probs(3) = probs(3) + logobsli(decod_g(m), m);
+  probs(3) = probs(3) + logObsProb(decodedModel_gamma(m), m);
 end
 
 % Restricted
@@ -120,17 +138,18 @@ end
 probs(4) = sum(log(c(1:end-1))) + log(alfa(nFrameScore, nFrameAudio));
 
 % DELTA_END
-decod_sd = zeros(nFrameAudio,1);
-decod_sd(nFrameAudio) = nFrameScore;
+decodedModel_scaledDelta = zeros(nFrameAudio,1);
+decodedModel_scaledDelta(nFrameAudio) = nFrameScore;
+
 for m = nFrameAudio-1:-1:1
-  decod_sd(m) = psi(decod_sd(m+1), m+1);
+  decodedModel_scaledDelta(m) = psi(decodedModel_scaledDelta(m+1), m+1);
 end
 for m = 1:nFrameAudio
-  probs(5) = probs(5) + logobsli(decod_sd(m), m);
+  probs(5) = probs(5) + logObsProb(decodedModel_scaledDelta(m), m);
 end
 
 % GAMMA_END
-[void, decod_sg] = max(real(sgamma));
+[void, decodedModel_scaledGamma] = max(real(scaledGamma));
 for m = 1:nFrameAudio
-  probs(6) = probs(6) + logobsli(decod_sg(m), m);
+  probs(6) = probs(6) + logObsProb(decodedModel_scaledGamma(m), m);
 end
