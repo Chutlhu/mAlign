@@ -33,6 +33,7 @@ clippedLogEnergy(logEnergy < pdfs.logEnergy_r_th) = pdfs.logEnergy_r_th;
 % Frequencies peack features: harmonic content for event (rows) over time (columns)
 % that is the Peak Structured Distance - 1.
 harmonicContents = (fb.bands * ySpectrogram) ./ (fb.extrs * ySpectrogram);
+harmonicContents(isnan(harmonicContents)) = 0;
 
 %% Observation probabilities
 % Probability to observe the Log Energy feature being in a...
