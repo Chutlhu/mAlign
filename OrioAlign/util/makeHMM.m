@@ -24,11 +24,12 @@ nNotes = size(score, 1);
 nHMMStates = 2 + (nSustStates + 1) * nNotes;
 
 % Expected number of times in slice
-n_self = ceil(cell2mat(score(:, 2)) * analysisParams.Fs / (analysisParams.hopeSize * 1000));
-autos = (n_self - nSustStates + 1) ./ n_self;
+% n_self = ceil(cell2mat(score(:, 2)) * analysisParams.Fs / (analysisParams.hopeSize * 1000));
+nSelfloops = ceil(cell2mat(score(:, 2)) * analysisParams.Fs / (analysisParams.hopeSize));
+selfTransProb = (nSelfloops - nSustStates + 1) ./ nSelfloops;
 
 % Take care of very short slices
-autos(autos <= 0.1) = 0.1;
+selfTransProb(selfTransProb <= 0.1) = 0.1;
 
 % Initialization
 prior = zeros(nHMMStates, 1);
@@ -40,62 +41,63 @@ state = 1;
 prior(state) = 1;
 trans(state, state) = 0.5;
 trans(state, state+1) = 0.5;
-% pointer to the filterbanks: [ATTACK/SUSTAIN | STATE | TIME SLICE]
+% pointer to the filterbanks: [ATTACK/SUSTAIN | STATE_LABEL | TIME SLICE]
 obs(state, :) = [0, 0, 0];
 
 % Slices in the score
 % fill all the first and the second diagonal
 state = 2;
 for n = 1:nNotes-1
-
-  % Check if slice has notes
-  if ~isempty(score{n, 1})
-
-    %  Model Sustain on a note
-    for m=1:nSustStates,
-      trans(state, state) = autos(n);
-      trans(state, state + 1) = 1 - autos(n);
-      obs(state, :) = [1, n, score{n, 2}];
-      if ~model_rest && isempty(score{n, 1})
-        obs(state, 3) = obs(state, 3) + score{n + 1, 2};
-      end
-      state = state + 1;
-    end
-
-    % Check if possible articulation rest state at the end (take flag into account)
-    if model_rest && (length(score{n, 1}) == 1 ...
-            || (isempty(intersect(score{n, 1}, score{n + 1, 1})) ...
+    
+    % Check if slice has notes
+    if ~isempty(score{n, 1})
+        
+        %  Model Sustain on a note
+        for m=1:nSustStates,
+            trans(state, state) = selfTransProb(n);
+            trans(state, state + 1) = 1 - selfTransProb(n);
+            obs(state, :) = [1, n, score{n, 2}];
+            if ~model_rest && isempty(score{n, 1})
+                obs(state, 3) = obs(state, 3) + score{n + 1, 2};
+            end
+            state = state + 1;
+        end
+        
+        % Check if possible articulation rest state at the end (take flag into account)
+        if model_rest && (length(score{n, 1}) == 1 ...
+                || (isempty(intersect(score{n, 1}, score{n + 1, 1})) ...
                 && ~isempty(score{n + 1, 1})) )
-      % Modify last sustain
-      trans(state - 1, state) = (1 - autos(n)) / 2;
-      trans(state - 1, state + 1) = (1 - autos(n)) / 2;
-      % Add articulation rest
-      trans(state, state) = 0.5;
-      trans(state, state + 1) = 0.5;
-      obs(state, :) = [0, n];
-      state = state + 1;
+            % Modify last sustain
+            trans(state - 1, state) = (1 - selfTransProb(n)) / 2;
+            trans(state - 1, state + 1) = (1 - selfTransProb(n)) / 2;
+            % Add articulation rest
+            trans(state, state) = 0.5;
+            trans(state, state + 1) = 0.5;
+            obs(state, :) = [0, n];
+            state = state + 1;
+        end
+    else
+        
+        % REST
+        if model_rest
+            for m=1:nSustStates,
+                trans(state, state) = selfTransProb(n);
+                trans(state, state + 1) = 1 - selfTransProb(n);
+                obs(state,:)=[0, n, score{n, 2}];
+                state = state + 1;
+            end
+        end
+        
     end
-  else
-
-    % REST
-    if model_rest
-      for m=1:nSustStates,
-        trans(state, state) = autos(n);
-        trans(state, state + 1) = 1 - autos(n);
-        obs(state,:)=[0, n, score{n, 2}];
-        state = state + 1;
-      end
-    end
-  end
-  
+    
 end
 
 % Last slice, is always a sustain, with no articulation rest
 for m = 1:nSustStates
-  trans(state, state) = autos( nNotes );
-  trans(state, state + 1) = 1 - autos( nNotes );
-  obs(state, :) = [1, nNotes, score{nNotes,2}];
-  state = state + 1;
+    trans(state, state) = selfTransProb( nNotes );
+    trans(state, state + 1) = 1 - selfTransProb( nNotes );
+    obs(state, :) = [1, nNotes, score{nNotes,2}];
+    state = state + 1;
 end
 
 % Resize HMM
@@ -116,19 +118,19 @@ logPrior = zeros(nHMMStates, 1);
 logTrans = zeros(nHMMStates, nHMMStates);
 
 for n = 1:nHMMStates
-  if prior(n) > 0
-    logPrior(n, 1) = log(prior(n));
-  else
-    logPrior(n, 1) = -Inf;
-  end
-
-  for m = 1:nHMMStates,
-    if trans(n, m) > 0,
-      logTrans(n, m) = log(trans(n, m));
+    if prior(n) > 0
+        logPrior(n, 1) = log(prior(n));
     else
-      logTrans(n, m) = -Inf;
+        logPrior(n, 1) = -Inf;
     end
-  end
+    
+    for m = 1:nHMMStates,
+        if trans(n, m) > 0,
+            logTrans(n, m) = log(trans(n, m));
+        else
+            logTrans(n, m) = -Inf;
+        end
+    end
 end
 
 % Create structure to be output
