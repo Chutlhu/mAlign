@@ -40,5 +40,9 @@ Thumbs.db
 ##########################
 *.mat
 
+# ABLETONG generated files #
+############################
+*.asd
+
 # Heavy files #
 ###############
