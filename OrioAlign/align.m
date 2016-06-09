@@ -19,9 +19,9 @@ addpath(genpath('./'))
 %               nFilters
 %       Analysis Parameters:
 %               Fs, nFFT, l_sig, hpsz
-%       Observations probabilities:
+%       Observations probabilities parameters:
 %               uniform, logEnergy_s_th, logEnergy_s_mu, logEnergy_r_th, logEnergy_r_mu, enrg_th, enrg_mu
-exp_num = 15;
+exp_num = 50;
 setParameters;
 
 %% Load audio and MIDI files
@@ -155,7 +155,9 @@ for n = 1:length(score)
         line([ipos,fpos],[nt,nt],'LineWidth',3,'LineStyle','-','Color',[0 0 0])
     end
 end
+axis([0 size(ySpectrogram,2)*(analysisParams.windowSize-analysisParams.hopeSize)/analysisParams.Fs 21 90])
 title('MIDI piano roll of the score')
+
 
 [~, ppp] = max(-diff(fb.extrs'));
 ppp = max(ppp)+150;

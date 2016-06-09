@@ -1075,6 +1075,8 @@ for iter = 1:Niter
         for instr = 2:nbInstr
             hplot = hplot + h{instr};
         end
+        imagesc(hplot);
+        drawnow;
     end
     
     

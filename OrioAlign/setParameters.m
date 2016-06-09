@@ -1022,6 +1022,34 @@ switch exp_num
       'logEnergy_r_mu', 0.2, ...
       'enrg_th', 1.0, ...
       'enrg_mu', 0.8);
+  
+    case 50
+        
+        % Thresholds for merging events
+        thrsMillisNote = 0.100;
+        thrsMillisRest = 0.100;
 
+        % Number of sustain states in the network
+        nSustStates = 3;
+
+        % Number of filters in the filterbanalysisParamsk
+        nFilters = 6;
+
+        % analysisParamsalysis parameters
+        analysisParams = struct('Fs',44100,'nFFT',4096,'windowSize',1024,'hopeSize',512);
+
+        % Observations probabilities
+        pdfs = struct( ...
+          'uniform', 0.5, ...
+          'logEnergy_s_th', 4.0, ...
+          'logEnergy_s_mu', 0.2, ...
+          'logEnergy_r_th', 1.0, ...
+          'logEnergy_r_mu', 0.2, ...
+          'enrg_th', 0.38, ...
+          'enrg_mu', 0.1, ...
+          'rayleight_sigma', 0.2);
+
+        % include rests in the HMM model?
+        model_rest = 0;
 
 end

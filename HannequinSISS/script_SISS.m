@@ -25,10 +25,10 @@ firstSample = 1;
 
 % last sample of the sounds
 Fs = 11025;
-startingSeconds = 1;
-seconds = 11*60;
-firstSample = startingSeconds*Fs;
-lastSample = firstSample + Fs*seconds;
+startingSeconds = 0;
+seconds = 20;
+firstSample = startingSeconds*Fs+1;
+lastSample = firstSample + Fs*seconds - 1;
 
 % decimation factor
 decimateFactor = 1;
@@ -79,9 +79,6 @@ mu.muSparse = 0;
 
 % Separate track synthesis
 Notes = midiInfo(readmidi(midiFileName), 0);
-%
-%
-%
 
 [x,originalFs] = audioread(wavFileName);
 
@@ -89,9 +86,12 @@ Notes = midiInfo(readmidi(midiFileName), 0);
 x = myResample(x, originalFs, Fs);
 
 % transforming x in mono signal
-x = toMono(x);
+% x = toMono(x);
+if size(x,2) > 1
+    x = 0.5*(x(:,1) + x(:,2));
+end
 
-% selecting the sound to analyze :
+% selecting the portion of the sound to analyze
 x = x(firstSample:min(end,lastSample));
 
 % computation of the spectrogram
@@ -102,7 +102,7 @@ V = abs(sp).^2;
 M = size(V,1);
 N = size(V,2);
 
-% reference pitch (normalized frequency)
+% reference pitch (as normalized frequency)
 f0ref = 440/(Fs/decimateFactor)*2^((noteMIDIref-69)/12);
 
 % central pitch of each band initialization
@@ -169,8 +169,7 @@ for k = 1:nbTracks
     
     % Build Piano roll from MIDI notes of k-th track
     track{k} = Notes(Notes(:,1) == tracks(k),:);
-    [pianoRollTrack{k},t{k},nn{k}] = piano_roll(track{k}, 1, length(x)/Fs*decimateFactor/(N+1));
-    
+    [pianoRollTrack{k}, t{k}, nn{k}] = piano_roll(track{k}, 1, length(x)/Fs*decimateFactor/(N+1));
     pianoRollTrack{k} = pianoRollTrack{k}(:,1:min(N,end));
     t{k} = t{k}(1:min(N,end));
     
@@ -326,3 +325,56 @@ for k = 1:nbTracks
         xSep{k} = xSep{k} + xOnset{k};
     end
 end
+
+%% PLOT RESULTS
+
+figure(1)
+subplot(4,1,1)
+imagesc(V);
+axis xy
+axis([1 size(LambdaTracks{1,1},2) 1 R])
+subplot(4,1,2)
+imagesc(LambdaTracks{1,1});
+axis xy
+axis([1 size(LambdaTracks{2,1},2) 1 R])
+subplot(4,1,3)
+imagesc(LambdaTracks{2,1});
+axis xy
+axis([1 size(LambdaTracks{3,1},2) 1 R])
+subplot(4,1,4)
+imagesc(LambdaTracks{3,1});
+axis xy
+axis([1 size(LambdaTracks{1,1},2) 1 R])
+
+figure(2)
+subplot(4,1,1)
+plot(x);
+subplot(4,1,2)
+plot(xSep{1,1});
+subplot(4,1,3)
+plot(xSep{2,1});
+subplot(4,1,4)
+plot(xSep{3,1});
+
+figure(3)
+imagesc(spectrogram(x));
+
+figure(4)
+subplot(3,1,1)
+imagesc(spectrogram(xSep{1,1}));
+subplot(3,1,2)
+imagesc(spectrogram(xSep{2,1}));
+subplot(3,1,3)
+imagesc(spectrogram(xSep{3,1}));
+
+figure(5)
+subplot(4,1,1)
+imagesc(h{1,1});
+axis xy
+axis([1 size(LambdaTracks{1,1},2) 1 R])
+subplot(4,1,2)
+imagesc(LambdaTracks{1,1});
+axis xy
+axis([1 size(LambdaTracks{2,1},2) 1 R])
+
+

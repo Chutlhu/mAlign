@@ -49,6 +49,7 @@ for n = 1:nFrameScore,
     % TO DO: why it is the Truncated Unilateral Exponential?
     obsProb_sustain_filterbanks = exp( (harmonicContents(hmm.obs(n, 2), :) - pdfs.enrg_th) / pdfs.enrg_mu ) / pdfs.enrg_mu;
     % TO DO: try with different distribution as suggested in the paper???
+    obsProb_sustain_filterbanks = ((1 - harmonicContents(hmm.obs(n, 2), :))/(pdfs.rayleight_sigma^2)).*exp(((-(1 - harmonicContents(hmm.obs(n, 2), :)).^2)/(2*pdfs.rayleight_sigma^2)));
     % maybe it is the unilateral without the constant factor
     
     % joint probability (under indipendence assumption)
